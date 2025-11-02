@@ -289,7 +289,7 @@ class DataFetcher:
         # Try primary source
         df = self.primary.fetch(ticker, start_date, end_date)
         if df is not None and len(df) > 0:
-            return self._validate_and_clean(df, ticker, history_days)
+            return self._validate_and_clean(df, ticker, min_days=400)
 
         logger.warning(f"Primary source failed for {ticker}, trying fallback")
 
@@ -297,12 +297,12 @@ class DataFetcher:
         if self.fallback:
             df = self.fallback.fetch(ticker, start_date, end_date)
             if df is not None and len(df) > 0:
-                return self._validate_and_clean(df, ticker, history_days)
+                return self._validate_and_clean(df, ticker, min_days=400)
 
         if hasattr(self, 'csv_fallback') and self.csv_fallback:
             df = self.csv_fallback.fetch(ticker, start_date, end_date)
             if df is not None and len(df) > 0:
-                return self._validate_and_clean(df, ticker, history_days)
+                return self._validate_and_clean(df, ticker, min_days=400)
 
         logger.error(f"All sources failed for {ticker}")
         return None

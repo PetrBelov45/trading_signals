@@ -94,7 +94,7 @@ def clean_numeric_data(df: pd.DataFrame, fill_method: str = 'ffill') -> pd.DataF
 
     # Forward fill then backward fill
     if fill_method == 'ffill':
-        df = df.fillna(method='ffill').fillna(method='bfill')
+        df = df.ffill().bfill()
     elif fill_method == 'drop':
         df = df.dropna()
 
